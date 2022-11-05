@@ -8,12 +8,29 @@
 
 namespace Tests;
 
+use AppTesting\Foundation\CreatesApplication;
+use AppTesting\Foundation\MakesHttpRequests;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 abstract class TestCase extends MockeryTestCase
 {
+    use CreatesApplication;
+    use MakesHttpRequests;
+
     protected function setUp(): void
     {
         parent::setUp();
+    }
+
+    public function router()
+    {
+        $routes = new \AppTesting\Helpers\Route();
+        $routes->prefixStack('/api')->group([], function (\AppTesting\Helpers\Route $r) {
+            $r->post('/login', [\AppTesting\Http\Controllers\Auth\LoginController::class, 'login']);
+            $r->post('/logout', [\AppTesting\Http\Controllers\Auth\LoginController::class, 'logout']);
+            $r->post('/user', [\AppTesting\Http\Controllers\Auth\LoginController::class, 'current']);
+        });
+
+        return $routes;
     }
 }
