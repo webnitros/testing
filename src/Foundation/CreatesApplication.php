@@ -2,8 +2,8 @@
 
 namespace AppTesting\Foundation;
 
+use AppTesting\StoreSubscriber;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
@@ -17,24 +17,35 @@ trait CreatesApplication
 {
     public function createApplication()
     {
-        $container = Container::getInstance();
+        $app = app();
 
+        $app->singleton('dispatcher', function () {
+            return new EventDispatcher();
+        });
 
-        $container->bind(HttpKernel::class, function (Container $container) {
+        $app->singleton(HttpKernel::class, function (Container $container) {
 
             // регистрация событи
-            $dispatcher = new EventDispatcher();
+            /* @var EventDispatcher $dispatcher */
+            $dispatcher = $container->make('dispatcher');
+
+            #$dispatcher = new EventDispatcher();
 
             // регистраиця роутеров
             $routes = $this->router();
 
             // какие то проблемы с роутерами решает
             $matcher = new UrlMatcher($routes, new RequestContext());
-            $dispatcher = new EventDispatcher();
+            #$dispatcher = new EventDispatcher();
 
             // add event Routers
             $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
 
+
+            # $subscriber = new StoreSubscriber();
+            $dispatcher->addSubscriber(new StoreSubscriber());
+
+            // end
             $controllerResolver = new ControllerResolver();
 
             $argumentResolver = new ArgumentResolver();
@@ -53,7 +64,7 @@ trait CreatesApplication
         #$this->app->singleton(Kernel::class,Kernel::class);
         #$this->app->make(Kernel::class);
 
-        return $container;
+        return $app;
     }
 
     public function router()

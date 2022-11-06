@@ -9,8 +9,9 @@
 namespace AppTesting\Http\Controllers\Auth;
 
 
+use AppTesting\OrderPlacedEvent;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class LoginController
 {

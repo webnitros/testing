@@ -35,6 +35,9 @@
         "vimeo/psalm": "^4.22"
     },
     "autoload": {
+        "files": [
+            "src/Foundation/helpers.php"
+        ],
         "psr-4": {
             "AppTesting\\": "src/"
         }
