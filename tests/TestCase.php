@@ -9,6 +9,7 @@
 namespace Tests;
 
 use AppTesting\Foundation\CreatesApplication;
+use AppTesting\Foundation\InteractsWithAuthentication;
 use AppTesting\Foundation\MakesHttpRequests;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
@@ -16,9 +17,18 @@ abstract class TestCase extends MockeryTestCase
 {
     use CreatesApplication;
     use MakesHttpRequests;
+    use InteractsWithAuthentication;
+
+    /**
+     * The Illuminate application instance.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $app;
 
     protected function setUp(): void
     {
+        $this->app = $this->createApplication();
         parent::setUp();
     }
 

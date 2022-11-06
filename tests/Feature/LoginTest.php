@@ -2,7 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use AppTesting\Http\Kernel;
+use Illuminate\Container\Container;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 use Tests\TestCase;
 
 class LoginTest extends TestCase

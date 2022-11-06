@@ -11,7 +11,7 @@
     "scripts": {
         "tests" : "phpunit --bootstrap bootstrap.php",
         "test-watch": "phpunit-watcher watch --testdox",
-        "up:release": "gh release create \"v1.0.2\" --generate-notes"
+        "up:release": "gh release create \"v1.0.1\" --generate-notes"
     },
     "keywords": [
         "client"

@@ -505,23 +505,9 @@ trait MakesHttpRequests
      */
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
+        /* @var HttpKernel $kernel */
+        $kernel = $this->app->make(HttpKernel::class);
 
-        $routes = $this->router();
-
-        $matcher = new UrlMatcher($routes, new RequestContext());
-        $dispatcher = new EventDispatcher();
-
-        // Events
-        #$dispatcher->addSubscriber(new \App\Http\Middleware\Authenticate());
-
-        // Routers
-        $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
-
-        $controllerResolver = new ControllerResolver();
-
-        $argumentResolver = new ArgumentResolver();
-
-        $kernel = new HttpKernel($dispatcher, $controllerResolver, new RequestStack(), $argumentResolver);
         $files = array_merge($files, $this->extractFilesFromDataArray($parameters));
 
         $symfonyRequest = SymfonyRequest::create(
@@ -533,10 +519,11 @@ trait MakesHttpRequests
             $request = Request::createFromBase($symfonyRequest)
         );
 
-        #$response->send();
+        if ($this->followRedirects) {
+            $response = $this->followRedirects($response);
+        }
 
         $kernel->terminate($request, $response);
-
         return $this->createTestResponse($response);
     }
 
