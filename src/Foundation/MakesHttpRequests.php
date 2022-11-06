@@ -506,7 +506,7 @@ trait MakesHttpRequests
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
         /* @var HttpKernel $kernel */
-        $kernel = $this->app->make(HttpKernel::class);
+        $kernel = app()->make(HttpKernel::class);
         #$kernel = $this->app->make(HttpKernel::class);
 
         $files = array_merge($files, $this->extractFilesFromDataArray($parameters));
