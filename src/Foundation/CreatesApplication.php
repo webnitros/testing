@@ -15,6 +15,14 @@ use Symfony\Component\Routing\RequestContext;
 
 trait CreatesApplication
 {
+
+    /**
+     * The Illuminate application instance.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $app;
+
     public function createApplication()
     {
         $app = app();
@@ -63,8 +71,7 @@ trait CreatesApplication
         #$this->app->bind(Kernel::class);
         #$this->app->singleton(Kernel::class,Kernel::class);
         #$this->app->make(Kernel::class);
-
-        return $app;
+        $this->app = $app;
     }
 
     public function router()

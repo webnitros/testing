@@ -19,16 +19,10 @@ abstract class TestCase extends MockeryTestCase
     use MakesHttpRequests;
     use InteractsWithAuthentication;
 
-    /**
-     * The Illuminate application instance.
-     *
-     * @var \Illuminate\Container\Container
-     */
-    protected $app;
 
     protected function setUp(): void
     {
-        $this->app = $this->createApplication();
+        $this->createApplication();
         parent::setUp();
     }
 
