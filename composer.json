@@ -1,7 +1,6 @@
 {
     "name": "webnitros/testing",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "webnitros",
@@ -11,7 +10,7 @@
     "scripts": {
         "tests" : "phpunit --bootstrap bootstrap.php",
         "test-watch": "phpunit-watcher watch --testdox",
-        "up:release": "gh release create \"v1.0.1\" --generate-notes"
+        "up:release": "gh release create \"v1.0.0\" --generate-notes"
     },
     "keywords": [
         "client"
